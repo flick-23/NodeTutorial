@@ -32,33 +32,68 @@ app.post('/api/courses',(req,res) =>{
     const result = Joi.validate(req.body, schema);  //storing the result
 
 
-    if(result.error)
+    if(result.error)    //handle error
     {
-        //this gives complex results
-        //res.status(400).send(result.error);
-
-        //alternative way & better
         res.status(400).send(result.error.details[0].message);
         return;
     }
     const course = {
 
         id: courses.length + 1,
-        //this feature isnt enabled by default by express
-        //In order to make this line work, need to enable, parsing of JSON objects in the body of requests 
         name: req.body.name  
     }
     courses.push(course);
     res.send(course);
 })
 
+
+//building logic for updating a course
+app.put('/api/courses/:id',(req,res) =>{
+    /**Look up the course
+     * If does not exist, return 404
+     * 
+     * Validate
+     * If invalid, return 400 Bad Request
+     * 
+     * Update course
+     * Return
+     * 
+     */
+
+     //Look up the course
+    const course = courses.find(c => c.id === parseInt(req.params.id))
+    if(!course) //404
+        res.status(404).send('The course with given ID was not found')
+
+    //Input Validation
+    const result = validateCourse(req.body);
+    if(result.error)    //handle error
+    {
+        res.status(400).send(result.error.details[0].message);
+        return;
+    }
+
+    //Update course
+    course.name = req.body.name;
+    res.send(course);
+
+    const result = Joi.validate(req.body, schema);  //storing the result
+    
+})
+
+
+
+
 //listening ports by environment variable
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log("Listening on port ",port))
 
 
-//Test it using POSTMAN
-/**
- * >raw
- * >json
- */
+function validateRequest(course)
+{
+    const schema = {
+        name: Joi.string().min(3).required()
+    };
+
+    return Joi.validate(course, schema);
+}
