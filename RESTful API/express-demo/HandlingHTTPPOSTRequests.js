@@ -4,6 +4,9 @@
 const express = require('express');
 const app = express();
 
+const Joi = require('joi');     //importing package for input validation
+//Also 'J' in Joi is capital because it returns a class, and class names must follow PASCAL naming convention of Capital letters 
+
 //adding a piece of middle ware
 app.use(express.json());     //will be explored later in detail
 
@@ -22,6 +25,30 @@ app.get('/api/courses',(req,res) => {
 //post request to create a new COURSE
 //similar to get method, add a path
 app.post('/api/courses',(req,res) =>{
+    //INPUT VALIDATION
+
+    const schema = {
+        name: Joi.string().min(3).required()        //should be a string, and min 3 chars
+    };
+    const result = Joi.validate(req.body, schema);  //storing the result
+
+
+    /** ALTERNATIVE
+    if(!req.body.name || req.body.name.length<3)
+    {
+        //BAD REQUEST
+        res.status(400).send("Name is required & should be minimum 3 characters!");
+    }    */
+
+    if(result.error)
+    {
+        //this gives complex results
+        //res.status(400).send(result.error);
+
+        //alternative way & better
+        res.status(400).send(result.error.details[0].message);
+        return;
+    }
     const course = {
 
         id: courses.length + 1,
