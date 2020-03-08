@@ -5,9 +5,9 @@ const express = require('express');
 const app = express();
 
 const courses = [
-    {id: 1, name: 'JAVA'},
-    {id: 2, name: 'C'},
-    {id: 3, name: 'C++'},
+    {id: 1, name: 'C'},
+    {id: 2, name: 'C++'},
+    {id: 3, name: 'JAVA'},
 ]
 //creating a route
 app.get('/',(req,res) => {
@@ -16,6 +16,11 @@ app.get('/',(req,res) => {
 
 //creating a route to return all courses
 app.get('/api/courses',(req,res) => {
+    res.send(courses);   
+})
+
+//creating a route with a parameter to return a particular course
+app.get('/api/courses/:id',(req,res)=>{
     //use 'find' function of JS to find the particular course 
     //convert the string to int using Parse method
     const course = courses.find(c => c.id === parseInt(req.params.id))
@@ -23,11 +28,6 @@ app.get('/api/courses',(req,res) => {
         res.status(404).send('The course with given ID was not found')
 
     res.send(course)
-})
-
-//creating a route with a parameter to return a particular course
-app.get('/api/courses/:id',(req,res)=>{
-    res.send(req.params.id);    // reads one parameter
 })
 
 
