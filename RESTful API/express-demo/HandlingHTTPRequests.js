@@ -16,7 +16,13 @@ app.get('/',(req,res) => {
 
 //creating a route to return all courses
 app.get('/api/courses',(req,res) => {
-    res.send(courses);
+    //use 'find' function of JS to find the particular course 
+    //convert the string to int using Parse method
+    const course = courses.find(c => c.id === parseInt(req.params.id))
+    if(!course) //404
+        res.status(404).send('The course with given ID was not found')
+
+    res.send(course)
 })
 
 //creating a route with a parameter to return a particular course
