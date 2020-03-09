@@ -1,4 +1,4 @@
-//Updates an existing course
+//Updates an Existing course
 
 //importing express package
 const express = require('express');
@@ -6,9 +6,8 @@ const app = express();
 
 const Joi = require('joi');     //importing package for input validation
 
-
 //adding a piece of middle ware
-app.use(express.json());     
+app.use(express.json());     //will be explored later in detail
 
 
 const courses = [
@@ -22,23 +21,29 @@ app.get('/api/courses',(req,res) => {
     res.send(courses);   
 })
 
+//creating a route to return a particular course
+app.get('/api/courses/:id',(req,res)=>{
+    const course = courses.find(c => c.id === parseInt(req.params.id))
+    if(!course) //404
+        res.status(404).send('The course with given ID was not found')
+
+    res.send(course)
+})
+
 //post request to create a new COURSE
 app.post('/api/courses',(req,res) =>{
     //INPUT VALIDATION
+    // Deleted old lines and replaced with new validating method.
+    const {error} = validateCourse(req.body);   //eqvi to getting result.error
+    // basically replaced "result.error" with "error"
+        if(error)        //Error Handling
+        {
+            res.status(400).send(error.details[0].message);
+            return;
+        }
 
-    const schema = {
-        name: Joi.string().min(3).required()        //should be a string, and min 3 chars
-    };
-    const result = Joi.validate(req.body, schema);  //storing the result
 
-
-    if(result.error)    //handle error
-    {
-        res.status(400).send(result.error.details[0].message);
-        return;
-    }
     const course = {
-
         id: courses.length + 1,
         name: req.body.name  
     }
@@ -46,18 +51,14 @@ app.post('/api/courses',(req,res) =>{
     res.send(course);
 })
 
-
-//building logic for updating a course
 app.put('/api/courses/:id',(req,res) =>{
-    /**Look up the course
-     * If does not exist, return 404
-     * 
-     * Validate
-     * If invalid, return 400 Bad Request
-     * 
-     * Update course
-     * Return
-     * 
+    /**
+     * Look up the course 
+     *      Return 404 if it doenst exist
+     * Validate 
+     *        If invalid, return 404 - Bad Request
+     * Update the course    
+     *         Return the updated cours
      */
 
      //Look up the course
@@ -65,35 +66,29 @@ app.put('/api/courses/:id',(req,res) =>{
     if(!course) //404
         res.status(404).send('The course with given ID was not found')
 
-    //Input Validation
-    const result = validateCourse(req.body);
-    if(result.error)    //handle error
-    {
-        res.status(400).send(result.error.details[0].message);
-        return;
-    }
+        //Validating
+        //Using object destructuring feature to reduce the code length
+        const {error} = validateCourse(req.body);   //eqvi to getting result.error
+        if(error)        //Error Handling
+        {
+            res.status(400).send(error.details[0].message);
+            return;
+        }
 
-    //Update course
-    course.name = req.body.name;
-    res.send(course);
+        //Update the course and return updated course
 
-    const result = Joi.validate(req.body, schema);  //storing the result
-    
+        course.name = req.body.name;
+        res.send(course);
+
 })
-
-
-
 
 //listening ports by environment variable
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log("Listening on port ",port))
 
-
-function validateRequest(course)
-{
+function validateCourse(course){
     const schema = {
-        name: Joi.string().min(3).required()
+        name: Joi.string().min(3).required()        //should be a string, and min 3 chars
     };
-
-    return Joi.validate(course, schema);
+    return Joi.validate(course, schema);        // return result
 }
