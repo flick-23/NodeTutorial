@@ -10,6 +10,9 @@ const app = express();
 
 const Joi = require('joi');     //importing package for input validation
 
+const helmet = require('helmet')    //3rd party middleware function
+const morgan = require('morgan')    //3rd party middleware function
+
 //adding a piece of middle ware
 app.use(express.json());    
 
@@ -22,8 +25,12 @@ app.use(express.static('public'));  //public is the folder name
 
 //-------------------------------3rd Party Middleware-----------------------
 
+app.use(helmet());   // Helps secure your apps by setting various HTTP headers.
+app.use(morgan('tiny'));    // HTTP request logger.
+//'tiny' is a a format for the logger req 
+
 const courses = [
-    {id: 1, name: 'C'},
+    {id: 1, name: 'C'}, 
     {id: 2, name: 'C++'},
     {id: 3, name: 'JAVA'},
 ]
