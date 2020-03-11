@@ -1,6 +1,6 @@
 const http = require('http');   //import http module
 
-//const server = http.createServer(); //this server is an EventEmitter, and all its capabilities  
+//const server = http.createServer(); //this server is an EventEmitter, and has all its capabilities  
 
 /** This is sort of low level
 server.on('connection', (socket) => {
