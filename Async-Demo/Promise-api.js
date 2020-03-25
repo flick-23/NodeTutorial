@@ -9,12 +9,11 @@ const q = Promise.reject(new Error('Reason for Rejection'));
 q.catch(error => console.log(error));
 
 //Parallel Promises
-
 //First this async operation is executed
 const p1 = new Promise((resolve) =>{
     setTimeout(() =>{
         console.log('Aysnc operation 1 ..');
-        resolve(1);
+        resolve(new Error('Something failed!'));
     }, 2000);
 });
 
@@ -30,4 +29,10 @@ const p2 = new Promise((resolve) =>{
 
 //returns a new promise, when all promises in this array are resolved
 Promise.all([p1,p2])
-.then(result =>console.log(result));
+.then(result =>console.log(result))
+.catch(error =>console.log(error));
+
+//returns a when promise as and when the results of the promises are ready
+Promise.race([p1,p2])
+.then(result =>console.log(result))
+.catch(error =>console.log(error));
