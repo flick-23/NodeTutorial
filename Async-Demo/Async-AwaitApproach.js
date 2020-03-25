@@ -7,7 +7,7 @@
 
 //Async-Await approach
 /**Code Looks like its Sync, but works like Async
- * Use decorator async function
+ * function should always be decorated with Async modifier
  * User TRY & CATCH for errors, because unlike promises this doesnt have .then . catch
  */
 
