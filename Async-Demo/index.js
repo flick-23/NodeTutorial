@@ -12,4 +12,3 @@ console.log('After');       //sync - code
  * The 1st line is executed, 9th line's execution is initially blocked, and is executed only after the
  * execution of 1st line. That is Sync Programming (blocking)
  */
-
