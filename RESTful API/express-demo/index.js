@@ -1,10 +1,33 @@
+const config = require("config");
+const morgan = require("morgan");
+const helmet = require("helmet");
 const Joi = require("joi");
 const express = require("express");
+const logger = require("./middleware");
 const { func, valid } = require("joi");
 const app = express();
 
-app.use(express.json());
+app.set("view engine", "pug");
+app.set("views", "./views"); //default
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
+app.use(helmet());
+
+//Configuration
+console.log("Application Name : " + config.get("name"));
+console.log("Mail Server : " + config.get("mail.host"));
+// console.log("Mail Password : " + config.get("mail.password"));
+
+app.use(morgan("tiny"));
+
+if (app.get("env") === "development") {
+  app.use(morgan("tiny"));
+  console.log("Morgan enabled ... ");
+}
+
+app.use(logger);
 const courses = [
   { id: 1, name: "course1" },
   { id: 2, name: "course2" },
@@ -13,7 +36,7 @@ const courses = [
 ];
 
 app.get("/", (req, res) => {
-  res.send("Hello World!!!! Watcha doin !?");
+  res.render("index", { title: "My express app", message: "Hello" });
 });
 
 app.get("/api/courses", (req, res) => {
