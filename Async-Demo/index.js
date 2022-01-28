@@ -1,23 +1,17 @@
 console.log("Before"); //sync - code
-getUser(1, getRepositories);
+// getUser(1, getRepositories);
 console.log("After"); //sync - code
 
-function getRepositories(user) {
-  getRepositories(user.gitHubUsername, getCommits);
-}
-
-function getCommits(repos) {
-  getCommits(repo, displayCommits);
-}
-
-function displayCommits(commits) {
-  console.log("Comits: ", commits);
-}
+getUser(1)
+  .then((user) => getRepositories(user.gitHubUsername))
+  .then((repos) => getCommits(repos[0]))
+  .then((commits) => console.log("\nCommits : ", commits))
+  .catch((err) => console.log("Error : ", err.message));
 
 function getUser(id) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      console.log("Reading a user from the database ....");
+      console.log("\nReading a user from the database ....");
       resolve({ id: id, gitHubUsername: "mosh" });
     }, 2000);
   });
@@ -26,7 +20,7 @@ function getUser(id) {
 function getRepositories(username) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      console.log("\nCalling github API");
+      console.log("\nCalling github API to get repos..");
       resolve(["repo1", "repo2", "repo3"]);
     }, 2000);
   });
@@ -35,7 +29,7 @@ function getRepositories(username) {
 function getCommits(repo) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      console.log("\nCalling GitHub API . . . ");
+      console.log("\nCalling GitHub API to get commits... ");
       resolve(["23 commits"]);
     }, 2000);
   });
