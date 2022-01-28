@@ -18,3 +18,18 @@ const courseSchema = new mongoose.Schema({
   //   other datatypes that can be used are
   //   string, number, date, buffer, boolean, objectID, array
 });
+
+//compling the schema into a model
+//Classes, objects
+//Course, nodeCourse
+
+//creating Course class
+const Course = mongoose.model("Course", courseSchema); //collection that this model is for, schema that defines the shape of document of the collection
+//creating object of the course
+const course = new Course({
+  name: "NodeJS course",
+  author: "Mosh",
+  tags: ["node", "backend"],
+  //date has default value so not defining it
+  isPublished: true,
+});
