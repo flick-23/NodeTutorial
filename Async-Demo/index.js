@@ -3,6 +3,9 @@ getUser(1, function (user) {
   console.log("User : ", user);
 
   getRepositories(user.gitHubUsername, (repos) => {
+    getCommits(repo, (commits) => {
+      console.log("Commits : ", commits);
+    });
     console.log("Repos : ", repos);
   });
 });
