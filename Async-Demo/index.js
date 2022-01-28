@@ -14,24 +14,29 @@ function displayCommits(commits) {
   console.log("Comits: ", commits);
 }
 
-function getUser(id, callback) {
-  setTimeout(() => {
-    console.log("Reading a user from the database ....");
-    callback({ id: id, gitHubUsername: "mosh" });
-  }, 2000);
-  return 1;
+function getUser(id) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log("Reading a user from the database ....");
+      resolve({ id: id, gitHubUsername: "mosh" });
+    }, 2000);
+  });
 }
 
-function getRepositories(username, callback) {
-  setTimeout(() => {
-    console.log("\nCalling github API");
-    callback(["repo1", "repo2", "repo3"]);
-  }, 2000);
+function getRepositories(username) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log("\nCalling github API");
+      resolve(["repo1", "repo2", "repo3"]);
+    }, 2000);
+  });
 }
 
-function getCommits(callback) {
-  setTimeout(() => {
-    console.log("\nCalling GitHub API . . . ");
-    callback("23 commits");
-  }, 2000);
+function getCommits(repo) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log("\nCalling GitHub API . . . ");
+      resolve(["23 commits"]);
+    }, 2000);
+  });
 }
