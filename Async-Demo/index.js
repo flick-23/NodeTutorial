@@ -1,14 +1,12 @@
-console.log('Before');      //sync - code
+console.log("Before"); //sync - code
+const user = getUser(1);
+console.log(user);
+console.log("After"); //sync - code
 
-//Example of Async function
-setTimeout(() => {
-    console.log('Reading a user from the database ....');
-}, 2000);   //function is called after 2 seconds.
-
-
-console.log('After');       //sync - code
-
-/**
- * The 1st line is executed, 9th line's execution is initially blocked, and is executed only after the
- * execution of 1st line. That is Sync Programming (blocking)
- */
+function getUser(id) {
+  setTimeout(() => {
+    console.log("Reading a user from the database ....");
+    return { id: id, gitHubUsername: "mosh" };
+  }, 2000);
+  return 1;
+}
