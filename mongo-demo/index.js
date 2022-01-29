@@ -126,4 +126,11 @@ async function updateCourse(id) {
   );
   console.log(result);
 }
-updateCourse("61f59ab1e4bc3ee20aed6d12");
+// updateCourse("61f59ab1e4bc3ee20aed6d12");
+
+async function removeCourse(id) {
+  // const result = await Course.deleteOne({ _id: id });  //returns count of deleted objects
+  const course = await Course.findByIdAndRemove(id); //returns the deleted object
+  console.log(result);
+}
+removeCourse("61f59ab1e4bc3ee20aed6d12");
