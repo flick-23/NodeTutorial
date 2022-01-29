@@ -67,6 +67,7 @@ async function getCourse() {
    example-> * contains mosh => .find({author: /pattern/})  => pattern can be a regex, in this case, it will be : /.*Mosh.*/
 
   //returns a promise
+  //applying filters
   const courses = await Course.find({
     author: "Mosh",
     isPublished: true,
@@ -75,7 +76,9 @@ async function getCourse() {
     .limit(10)
     //1 indicates ascending, -1 indicated descending
     .sort({ name: 1 })
-    .select({ name: 1, tags: 1 });
+    .select({ name: 1, tags: 1 })
+    //returns count of the document that match our filter
+    .count();
   console.log(courses);
 }
 
