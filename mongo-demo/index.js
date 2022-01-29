@@ -96,19 +96,34 @@ async function updateCourse(id) {
   //findById()
   //modify its props
   //save()
-  const course = await Course.findById(id);
-  if (!course) return;
+  // const course = await Course.findById(id);
+  // if (!course) return;
   // course.isPublished = true;
   // course.author = "Another Author";
   //alternatively use set method
-  course.set({
-    isPublished: true,
-    author: "ANother Author",
-  });
-  const result = await course.save();
-  console.log(result);
+  // course.set({
+  //   isPublished: true,
+  //   author: "ANother Author",
+  // });
+  // const result = await course.save();
+  // console.log(result);
+
   //approach: update first
   //update directly
   //optionally: get the updated document
+  //first argumetn is query or filter object, second will be update operators
+  const result = await Course.findByIdAndUpdate(
+    id,
+    //check the mongo db update operators
+    {
+      $set: {
+        author: "Mosh",
+        isPublished: true,
+      },
+    },
+    //use this to display the updated doc instead of the old doc after operations
+    { new: true }
+  );
+  console.log(result);
 }
-// updateCourse("61f59ab1e4bc3ee20aed6d12");
+updateCourse("61f59ab1e4bc3ee20aed6d12");
