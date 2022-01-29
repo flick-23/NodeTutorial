@@ -68,12 +68,18 @@ async function getCourse() {
 
   //returns a promise
   //applying filters
+  const pageNumber = 2; //hard coding here
+  const pageSize = 10; //but in actual application, we pass these values as query string parameters using RestAPI
+  //ex=> /api/courses?pageNumber=2&pageSize=10
   const courses = await Course.find({
     author: "Mosh",
     isPublished: true,
   })
+    //used to implement pagination
+    //assuming pageNumber starts from 1 not its index, with
+    .skip((pageNumber - 1) * pageSize) // we need to skip all documents in the prev page
     //building queries
-    .limit(10)
+    .limit(pageSize) //change limit to pageSize, to get documents in a given page
     //1 indicates ascending, -1 indicated descending
     .sort({ name: 1 })
     .select({ name: 1, tags: 1 })
