@@ -1,4 +1,4 @@
-const { boolean, string } = require("joi");
+const { boolean, string, func } = require("joi");
 const mongoose = require("mongoose");
 
 //connection string
@@ -88,4 +88,27 @@ async function getCourse() {
   console.log(courses);
 }
 
-getCourse();
+// getCourse();
+
+//update a document in MongoDB
+async function updateCourse(id) {
+  //approach : query first
+  //findById()
+  //modify its props
+  //save()
+  const course = await Course.findById(id);
+  if (!course) return;
+  // course.isPublished = true;
+  // course.author = "Another Author";
+  //alternatively use set method
+  course.set({
+    isPublished: true,
+    author: "ANother Author",
+  });
+  const result = await course.save();
+  console.log(result);
+  //approach: update first
+  //update directly
+  //optionally: get the updated document
+}
+// updateCourse("61f59ab1e4bc3ee20aed6d12");
