@@ -54,6 +54,12 @@ async function getCourse() {
    * nin (not in)
    */
 
+  //logical operators =>
+  /**chain with find, sort, update, or some other method like that
+   * or =>example => .or([{author:'Mosh'}, {isPublished:true}])
+   * and  =>example => .or([{author:'Mosh'}, {isPublished:true}])
+   */
+
   //returns a promise
   const courses = await Course.find({
     author: "Mosh",
