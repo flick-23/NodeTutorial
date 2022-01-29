@@ -60,6 +60,12 @@ async function getCourse() {
    * and  =>example => .or([{author:'Mosh'}, {isPublished:true}])
    */
 
+  //regular expressions =>
+  /**
+   example-> * starts with mosh => .find({author: /pattern/})  => pattern can be a regex, in this case, it will be : /^Mosh/
+   example-> * ends with flick => .find({author: /pattern/i}) ('i' indicates case insensitivity)  => pattern can be a regex, in this case, it will be : /flick$/i ($-> indicates end of the string)
+   example-> * contains mosh => .find({author: /pattern/})  => pattern can be a regex, in this case, it will be : /.*Mosh.*/
+
   //returns a promise
   const courses = await Course.find({
     author: "Mosh",
