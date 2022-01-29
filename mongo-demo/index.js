@@ -26,10 +26,16 @@ const courseSchema = new mongoose.Schema({
 //creating Course class
 const Course = mongoose.model("Course", courseSchema); //collection that this model is for, schema that defines the shape of document of the collection
 //creating object of the course
-const course = new Course({
-  name: "NodeJS course",
-  author: "Mosh",
-  tags: ["node", "backend"],
-  //date has default value so not defining it
-  isPublished: true,
-});
+//creating async function because saving a document is a process that takes time and gives result after a while
+async function createCourse() {
+  const course = new Course({
+    name: "Angular course",
+    author: "Mosh",
+    tags: ["angular", "frontend"],
+    //date has default value so not defining it
+    isPublished: true,
+  });
+  const result = await course.save(); //awaiting for the promise to  return
+  console.log(result);
+}
+createCourse();
