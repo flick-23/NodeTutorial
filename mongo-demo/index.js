@@ -38,4 +38,21 @@ async function createCourse() {
   const result = await course.save(); //awaiting for the promise to  return
   console.log(result);
 }
-createCourse();
+
+//querying mongodb
+async function getCourse() {
+  //returns a promise
+  const courses = await Course.find({
+    author: "Mosh",
+    isPublished: true,
+  })
+    //building queries
+    .limit(10)
+    //1 indicates ascending, -1 indicated descending
+    .sort({ name: 1 })
+    .select({ name: 1, tags: 1 });
+  console.log(courses);
+}
+
+// createCourse();
+getCourse();
