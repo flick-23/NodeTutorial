@@ -38,9 +38,22 @@ async function createCourse() {
   const result = await course.save(); //awaiting for the promise to  return
   console.log(result);
 }
+// createCourse();
 
 //querying mongodb
 async function getCourse() {
+  //comparison operators => can be used as key value pairs
+  /**
+   * Prefix each with $ symbol
+   * eq (equal)
+   * ne (not equal)
+   * gt (greater than)   example => .find({ price: { $gt: 10, $lte: 20 } })    20 >= price >10
+   * gte(greater than or equal to)
+   * lte(less than or equal to)
+   * in     example => find({ price: { $in: [10, 15, 20] } })     price == 10 || 15 || 20
+   * nin (not in)
+   */
+
   //returns a promise
   const courses = await Course.find({
     author: "Mosh",
@@ -54,5 +67,4 @@ async function getCourse() {
   console.log(courses);
 }
 
-// createCourse();
 getCourse();
