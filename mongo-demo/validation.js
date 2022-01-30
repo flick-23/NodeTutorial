@@ -18,6 +18,10 @@ const courseSchema = new mongoose.Schema({
     type: String,
     required: true,
     enum: ["web", "mobile", "network"],
+    //stores data in lowercase/uppercase
+    lowercase: true,
+    //remove extra padding
+    trim: true,
   },
   author: String,
   tags: {
@@ -38,6 +42,8 @@ const courseSchema = new mongoose.Schema({
     },
     min: 10,
     max: 200,
+    get: (v) => Math.round(v),
+    set: (v) => Math.round(v),
   },
 });
 
@@ -45,11 +51,11 @@ const Course = mongoose.model("Course", courseSchema);
 async function createCourse() {
   const course = new Course({
     name: "Angular course",
-    category: "web",
+    category: "Web",
     author: "Mosh",
-    tags: null,
+    tags: ["frontend"],
     isPublished: true,
-    price: 15,
+    price: 15.8,
   });
 
   try {
