@@ -20,7 +20,15 @@ const courseSchema = new mongoose.Schema({
     enum: ["web", "mobile", "network"],
   },
   author: String,
-  tags: [String],
+  tags: {
+    type: Array,
+    validate: {
+      validator: function (v) {
+        return v && v.length > 0;
+      },
+      message: "A course should have atleast one tag",
+    },
+  },
   date: { type: Date, default: Date.now },
   isPublished: Boolean,
   price: {
@@ -37,19 +45,16 @@ const Course = mongoose.model("Course", courseSchema);
 async function createCourse() {
   const course = new Course({
     name: "Angular course",
-    category: "-",
+    category: "web",
     author: "Mosh",
-    tags: ["angular", "frontend"],
+    tags: null,
     isPublished: true,
     price: 15,
   });
 
-  //use try catch to catch exception
   try {
-    // const result = await course.save();
-    // console.log(result);
-    //OR uuse this method
-    await course.validate();
+    const result = await course.save();
+    console.log(result);
   } catch (ex) {
     console.log(ex.message);
   }
