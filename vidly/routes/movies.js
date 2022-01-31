@@ -10,11 +10,11 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-  const customers = await Movie.findById(req.params.id);
+  const movie = await Movie.findById(req.params.id);
 
-  if (!customers)
+  if (!movie)
     return res.status(404).send("The genre you're looking for is not found");
-  res.send(customers);
+  res.send(movie);
 });
 
 //CREATE

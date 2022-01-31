@@ -40,3 +40,6 @@ function validateMovie(movie) {
   });
   return schema.validate(movie);
 }
+
+exports.validate = validateMovie;
+exports.Movie = Movie;
