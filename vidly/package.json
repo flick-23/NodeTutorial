@@ -10,6 +10,7 @@
   "keywords": [],
   "description": "",
   "dependencies": {
+    "fawn": "^2.1.5",
     "joi": "^17.6.0",
     "mongoose": "^6.1.8"
   }

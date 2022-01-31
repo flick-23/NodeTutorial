@@ -2,7 +2,11 @@ const { Rental, validate } = require("../models/rental");
 const { Movie } = require("../models/movie");
 const { Customer } = require("../models/customer");
 const express = require("express");
+const Fawn = require("fawn");
+const mongoose = require("mongoose");
 const router = express.Router();
+
+Fawn.init(mongoose);
 
 //VIEW
 router.get("/", async (req, res) => {
@@ -44,12 +48,17 @@ router.post("/", async (req, res) => {
       dailyRentalRate: movie.dailyRentalRate,
     },
   });
-  rental = await rental.save();
 
-  movie.numberInStock--;
-  movie.save();
-
-  res.send(rental);
+  //transaction verification - here we are working directly with the collection and the names here are caseSensitive
+  try {
+    new Fawn.Task()
+      .save("rentals", rental)
+      .update("movies", { _id: movie._id }, { $inc: { numberInStock: -1 } }) //decrement numberInStock by 1 and update movie
+      .run(); //if u dont call run() none of these operations will be executed
+    res.send(rental);
+  } catch (ex) {
+    res.status(500).send("Something failed");
+  }
 });
 
 module.exports = router;
