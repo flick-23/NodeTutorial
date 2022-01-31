@@ -1,5 +1,5 @@
 const Joi = require("Joi");
-const mongoose = requie("mongoose");
+const mongoose = require("mongoose");
 const { genreSchema } = require("./genre");
 
 const Movie = mongoose.model(
