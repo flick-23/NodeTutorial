@@ -1,11 +1,14 @@
-const mongoose = require("mongoose");
+const app = express();
+const customers = require("./routes/customers");
 const express = require("express");
 const genres = require("./routes/genres");
-const customers = require("./routes/customers");
+const Joi = require("Joi");
+Joi.objectId = require("joi-objectid")(Joi);
+const mongoose = require("mongoose");
 const movies = require("./routes/movies");
 const rentals = require("./routes/rentals");
+
 const { func, valid } = require("joi");
-const app = express();
 
 mongoose
   .connect("mongodb://localhost/vidly")
