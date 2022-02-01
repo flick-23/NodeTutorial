@@ -1,3 +1,4 @@
+const auth = require("./routes/auth");
 const customers = require("./routes/customers");
 const express = require("express");
 const genres = require("./routes/genres");
@@ -17,8 +18,9 @@ mongoose
   .catch((er) => console.error("DB connection error! "));
 
 app.use(express.json());
-app.use("/api/genres", genres);
+app.use("/api/auth", auth);
 app.use("/api/customers", customers);
+app.use("/api/genres", genres);
 app.use("/api/movies", movies);
 app.use("/api/rentals", rentals);
 app.use("/api/users", users);
