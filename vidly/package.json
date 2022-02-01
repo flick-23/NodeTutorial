@@ -11,6 +11,7 @@
   "description": "",
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "config": "^3.3.7",
     "fawn": "^2.1.5",
     "joi": "^17.6.0",
     "joi-objectid": "^4.0.2",
