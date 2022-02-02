@@ -1,4 +1,4 @@
-const auth = require("..//routes/auth");
+const auth = require("../routes/auth");
 const error = require("../middleware/error");
 const express = require("express");
 const customers = require("../routes/customers");

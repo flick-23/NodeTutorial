@@ -4,13 +4,16 @@ const config = require("config");
 const express = require("express");
 const Joi = require("Joi");
 Joi.objectId = require("joi-objectid")(Joi);
-const mongoose = require("mongoose");
+
 const winston = require("winston");
 const app = express();
+
 require("./startup/routes")(app);
+require("./startup/db")();
+
 //handle any uncaught exceptions that arent in any of the catch blocks
 
-winston.handleExceptions(
+winston.exceptions.handle(
   new winston.transports.File({ filename: "uncaughtExceptions.log" })
 );
 
@@ -40,10 +43,6 @@ if (!config.get("jwtPrivateKey")) {
   console.error("FATAL ERROR: jwtPrivateKey is not defined");
   process.exit(1);
 }
-mongoose
-  .connect("mongodb://localhost/vidly")
-  .then(() => console.log("DB connected..."))
-  .catch((er) => console.error("DB connection error! "));
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening onf port ${port}`));
