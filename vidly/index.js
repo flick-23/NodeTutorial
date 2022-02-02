@@ -1,3 +1,4 @@
+require("express-async-errors");
 const auth = require("./routes/auth");
 const config = require("config");
 const customers = require("./routes/customers");
