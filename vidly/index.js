@@ -17,12 +17,24 @@ const winston = require("winston");
 const app = express();
 
 //handle any uncaught exceptions that arent in any of the catch blocks
-process.on("uncaughtException", (ex) => {
-  console.log("WE GOT AN UNCAUGHT EXCEPTION!");
-  winston.error(ex.message, ex);
+
+winston.handleExceptions(
+  new winston.transports.File({ filename: "uncaughtExceptions.log" })
+);
+
+//handle any uncaught rejected promises
+process.on("unhandledRejection", (ex) => {
+  // console.log("WE GOT AN UNHANDLED REJECTION!");
+  // winston.error(ex.message, ex);
+  // process.exit(1);
+  //or
+  throw ex;
 });
 
 // throw new Error("Something Failed during startup"); for testing
+// const p = Promise.reject(new Error("Something failed miserably!"));
+// p.then(() => console.log("DOne"));
+
 //add the new keyword
 winston.add(new winston.transports.File({ filename: "logfile.log" }));
 winston.add(
