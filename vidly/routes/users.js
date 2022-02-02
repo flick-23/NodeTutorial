@@ -2,9 +2,7 @@ const { validate, User } = require("../models/user");
 const _ = require("lodash");
 const auth = require("../middleware/auth");
 const bcrypt = require("bcrypt");
-const config = require("config");
 const express = require("express");
-const jwt = require("jsonwebtoken");
 const router = express.Router();
 
 //VIEW

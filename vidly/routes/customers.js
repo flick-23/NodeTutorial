@@ -18,7 +18,7 @@ router.get("/:id", async (req, res) => {
 });
 
 //CREATE
-router.post("/", auth, async (req, res) => {
+router.post("/", async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
